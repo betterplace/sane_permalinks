@@ -19,6 +19,5 @@ So we came up with this little thing, which was a drop-in replacement for us, an
 
 == Copyright
 
-Copyright (c) 2012 Daniel Hahn. See LICENSE.txt for
+Copyright (c) 2012 Daniel Hahn, 2022 [gut.org](https://gut.org). See [LICENSE.txt](LICENSE.txt) for
 further details.
-
