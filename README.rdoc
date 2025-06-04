@@ -7,6 +7,14 @@ This is mostly itchy-scratchy-ware. We didn't really want the self-proclaimed "s
 
 So we came up with this little thing, which was a drop-in replacement for us, and does exactly what we need. If you like it take a go, otherwise check out one of the established alternatives or roll your own ;-()
 
+== Usage
+
+Call `SanePermalinks.init` to make `ActiveRecord::Base` extend and include the relevant modules and alias `to_param`.
+
+Let `make_permalink with: :name` define by which `find_by` (here: `find_by_name`) the new `find_by_param` should find the record in your model class.
+
+`find_by_param` can throw a `SanePermalinks::WrongPermalink` error when the "slugs" do not exactly fit.
+
 == Contributing to sane_permalinks
 
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet
@@ -19,6 +27,5 @@ So we came up with this little thing, which was a drop-in replacement for us, an
 
 == Copyright
 
-Copyright (c) 2012 Daniel Hahn. See LICENSE.txt for
+Copyright (c) 2012 Daniel Hahn, 2022 [gut.org](https://gut.org). See [LICENSE.txt](LICENSE.txt) for
 further details.
-

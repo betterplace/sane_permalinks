@@ -6,6 +6,9 @@ module SanePermalinks
       @permalink_options || {}
     end
 
+    # supported options:
+    #   - with (str/symbol): define the xyz in `find_by_xyz` from find_by_param
+    #   - prepend_id  (bool): if permalinks shall look like 1-the_name_or_title
     def make_permalink(options)
       @permalink_options = options
     end
