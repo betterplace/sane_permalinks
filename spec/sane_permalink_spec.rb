@@ -46,9 +46,17 @@ describe SanePermalinks do
       fake_class.send(:make_permalink, :with => 'barfoo')
 
       fake_model.should_receive(:barfoo).with(no_args).and_return('hello')
+      fake_model.should_receive(:barfoo_changed?).and_return(false)
       fake_model.to_param.should eq 'hello'
     end
 
+    it "uses the original field value when there are unpersisted changes on the field" do
+      fake_class.send(:make_permalink, :with => 'foobar')
+
+      fake_model.should_receive(:foobar_changed?).and_return(true)
+      fake_model.should_receive(:foobar_was).with(no_args).and_return('goodbye')
+      fake_model.to_param.should eq 'goodbye'
+    end
   end
 
   describe "the behaviour when using prepend_id" do
@@ -64,6 +72,7 @@ describe SanePermalinks do
       fake_class.send(:make_permalink, :with => :foobar, :prepend_id => true)
 
       fake_model.should_receive(:foobar).and_return('helloworld')
+      allow(fake_model).to receive(:foobar_changed?).and_return(false)
 
       fake_model.to_param.should eq '23-helloworld'
     end
@@ -73,7 +82,7 @@ describe SanePermalinks do
       fake_result = fake_class.new
 
       fake_class.should_receive(:find_by_id).and_return(fake_result)
-      fake_result.stub!(:to_param).and_return('23-abc')
+      allow(fake_result).to receive(:to_param).and_return('23-abc')
 
       expect { fake_class.find_by_param('23-hello') }.to raise_error(SanePermalinks::WrongPermalink) { |error| error.obj.should eq fake_result }
     end
@@ -138,6 +147,7 @@ describe SanePermalinks do
       fake_class.send(:make_permalink, :with => :foobar)
       fake_model.should_receive(:foobar).and_return('hello_world')
       fake_model.should_receive(:sanitize_param).with('hello_world').and_return('foo')
+      allow(fake_model).to receive(:foobar_changed?).and_return(false)
 
       fake_model.to_param.should eq 'foo'
     end
